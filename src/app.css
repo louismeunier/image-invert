@@ -3,7 +3,7 @@ body {
   padding: 0;
   font-family: Georgia;
   background: white;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
 }
 
 #app {

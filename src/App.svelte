@@ -1,9 +1,25 @@
 <script lang="ts">
-  import { downloadImages } from "./util";
+  import { downloadImages, drawImages } from "./util";
   // :)
   let files: FileList | null = null;
   import icon from "./invert.png"
   import implies from "./implies.png"
+
+  let preserveAlpha = true;
+
+
+  $: if (files != null) {
+    // clear();
+    drawImages(files, preserveAlpha);
+  }
+
+
+  function clear() {
+    files = null;
+    // delete all canvas elements
+    const canvases = document.querySelectorAll("canvas");
+    canvases.forEach((canvas) => canvas.remove());
+  }
 
 </script>
 
@@ -21,16 +37,20 @@
     <button>
       <label for="many">Upload images</label>
     </button>
-    <input bind:files id="many" multiple type="file" />
+    <input bind:files id="many" multiple type="file" on:click="{clear}" />
+      <input type="checkbox" bind:checked={preserveAlpha}
+      on:change={()=>drawImages(files, preserveAlpha)}
+      >
+      Preserve alpha
     <!-- clear button -->
     <button 
       disabled={files == null}
-      on:click={() => files = null}>
+      on:click={clear}>
       Clear
     </button>
     <button 
       disabled={files == null}
-      on:click={()=>downloadImages(files)}>
+      on:click={downloadImages}>
       Download
     </button>
   </div>
@@ -41,11 +61,11 @@
 <button id="fake-download">abcde</button>
 <!-- display the images uploaded -->
 <div class="image-container">
-{#if files}
-  {#each Array.from(files) as file}
-    <img id="image" src={URL.createObjectURL(file)} />
+<!-- {#if files}
+  {#each Array.from(files) as file, i}
+    <canvas id={"file-" + i}/>
   {/each}
-{/if}
+{/if} -->
 </div>
 <p id="disclaimer">* nb: does not currently work on mobile</p>
 </main>
@@ -59,37 +79,35 @@
     /* display: flex; */
     width: 100vw;
     height: 100vh;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
     /* flex-direction: column; */
   }
 
   .upload {
     padding: 1rem;
     text-align: center;
-    position: static;
+    position: fixed;
     z-index: 99;
     /* width: 100vw; */
     background-color: rgb(211, 211, 211, 0.9);
-
     display: flex;
     flex-direction: column;
+    border-radius: 0 0 5rem 0;
   }
 
   .image-container {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    
+    width: 100vw;
   }
 
-  .image-container img {
-    /* fit to container */
-    /* display: block; */
-    filter: invert(1);
-    height: 50vh;
+  canvas {
+    object-fit: none;
+    object-position: top left;
   }
-
   .inverted {
     filter: invert(1);
   }
