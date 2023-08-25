@@ -2,11 +2,21 @@
   import { downloadImages } from "./util";
   // :)
   let files: FileList | null = null;
- 
+  import icon from "./invert.png"
+  import implies from "./implies.png"
+
 </script>
 
 <main>
 <div class="upload">
+  <div>
+    <h1>Image Inverter</h1>
+  </div>
+  <div class="icons">
+    <img height="50px" src={icon}>
+    <img height="20px" src={implies}>
+    <img height="50px" class="inverted" src={icon}>
+  </div>
   <div>
     <button>
       <label for="many">Upload images</label>
@@ -58,6 +68,9 @@
     z-index: 99;
     width: 100vw;
     background-color: rgb(211, 211, 211, 0.9);
+
+    display: flex;
+    flex-direction: column;
   }
 
   .image-container {
@@ -75,6 +88,9 @@
     height: 50vh;
   }
 
+  .inverted {
+    filter: invert(1);
+  }
   #fake-download {
     display: none;
   }
@@ -82,5 +98,14 @@
   button {
     height: 2rem;
     margin: 0 0.5rem;
+  }
+
+  .icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.1rem;
+    gap: 1.5rem;
   }
 </style>
