@@ -6,6 +6,7 @@
   import implies from "./implies.png"
 
   let preserveAlpha = true;
+  let backgroundWhite = true;
 
 
   $: if (files != null) {
@@ -42,6 +43,10 @@
       on:change={()=>drawImages(files, preserveAlpha)}
       >
       Preserve alpha
+      <!-- toggle background color input -->
+      <button on:click={() => {backgroundWhite = !backgroundWhite}}>
+      {backgroundWhite ? "Black background" : "White background"}
+    </button>
     <!-- clear button -->
     <button 
       disabled={files == null}
@@ -60,7 +65,7 @@
 </div>
 <button id="fake-download">abcde</button>
 <!-- display the images uploaded -->
-<div class="image-container">
+<div class="image-container" style={`background-color: ${backgroundWhite ? "white" : "black"}`}>
 <!-- {#if files}
   {#each Array.from(files) as file, i}
     <canvas id={"file-" + i}/>
@@ -84,15 +89,16 @@
   }
 
   .upload {
-    padding: 1rem;
+    padding: 0.2rem;
     text-align: center;
     position: fixed;
     z-index: 99;
     /* width: 100vw; */
-    background-color: rgb(211, 211, 211, 0.9);
+    background-color: rgb(211, 211, 211, 0.8);
     display: flex;
     flex-direction: column;
-    border-radius: 0 0 5rem 0;
+    /* border-radius: 0 0 5rem 0; */
+    width: 100%;
   }
 
   .image-container {
@@ -102,10 +108,14 @@
     justify-content: center;
     align-items: center;
     width: 100vw;
+    height: 100vh;
   }
 
-  canvas {
-    object-fit: none;
+  :global(canvas) {
+    /* how to fix sizing??? */
+    /* scale: 0.5; */
+    flex: 1;
+    /* object-fit: none; */
     object-position: top left;
   }
   .inverted {
