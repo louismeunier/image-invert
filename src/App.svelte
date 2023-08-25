@@ -47,7 +47,7 @@
   {/each}
 {/if}
 </div>
-
+<p id="disclaimer">* nb: does not currently work on mobile</p>
 </main>
 
 <style>
@@ -58,6 +58,8 @@
   main {
     /* display: flex; */
     width: 100vw;
+    height: 100vh;
+    overflow-y: hidden;
     /* flex-direction: column; */
   }
 
@@ -66,7 +68,7 @@
     text-align: center;
     position: static;
     z-index: 99;
-    width: 100vw;
+    /* width: 100vw; */
     background-color: rgb(211, 211, 211, 0.9);
 
     display: flex;
@@ -107,5 +109,20 @@
     align-items: center;
     margin-bottom: 1.1rem;
     gap: 1.5rem;
+  }
+
+  #disclaimer {
+    font-size: 0.8rem;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    width: 100vw;
+    color: red;
+    margin-bottom: 0.1em;
+    font-style: italic;
+  }
+
+  h1 {
+    font-size: 1.5rem;
   }
 </style>
